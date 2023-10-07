@@ -26,18 +26,45 @@ public class Student {
     }
 
     public static Optional<Student> create(final String firstName, final String lastName, final int indexNumber) {
-        // TODO
-        String sql = "";
 
-        // TODO
+        String sql = "INSERT INTO student (first_name, last_name, index_number) VALUES (?,?,?);";
+
         // it is important to maintain the correct order of the variables
-        Object[] args = {};
+        Object[] args = {
+                firstName,
+                lastName,
+                indexNumber
+        };
 
+        try {
+            int id = QueryExecutor.createAndObtainId(sql, args);
+            return Student.findById(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return Optional.empty();
     }
 
     public static Optional<Student> findByIndexNumber(final int indexNumber) {
-        // TODO
+        String findByIdSql = "SELECT * FROM student WHERE index_number = ?";
+        Object[] args = {
+                indexNumber
+        };
+
+        try (ResultSet rs = QueryExecutor.read(findByIdSql, args)) {
+            if (rs.next()) {
+                return Optional.of(new Student(
+                        rs.getInt("id"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getInt("index_number")
+                ));
+            } else {
+                return Optional.empty();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return Optional.empty();
     }
 
@@ -122,20 +149,5 @@ public class Student {
         result = 31 * result + lastName.hashCode();
         result = 31 * result + indexNumber;
         return result;
-    }
-
-    public static Optional<Course> create(final String name) {
-        String insertSql = "INSERT INTO course (name) VALUES (?);";
-        Object[] args = {
-                name
-        };
-
-        try {
-            int id = QueryExecutor.createAndObtainId(insertSql, args);
-            return Course.findById(id);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return Optional.empty();
     }
 }

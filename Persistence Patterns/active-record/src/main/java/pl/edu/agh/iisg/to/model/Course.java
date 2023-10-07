@@ -2,6 +2,7 @@ package pl.edu.agh.iisg.to.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -65,24 +66,45 @@ public class Course {
     }
 
     public boolean enrollStudent(final Student student) {
-        String enrollStudentSql = "";
+        String checkExistSQL = "SELECT student_id, course_id FROM student_course sc WHERE sc.student_id = ? and sc.course_id = ? ";
+        String enrollStudentSql = "INSERT INTO student_course (student_id, course_id) VALUES (?,?);";
         Object[] args = {
-
+                student.id(),
+                id()
         };
 
-        //TODO
+        try {
+            ResultSet rs = QueryExecutor.read(checkExistSQL, args);
+            if (rs.next())
+                return false;
 
+            QueryExecutor.create(enrollStudentSql, args);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
     public List<Student> studentList() {
-        String findStudentListSql = "";
+        String findStudentListSql = "SELECT * FROM student " +
+                "INNER JOIN student_course ON student.id = student_course.student_id " +
+                "WHERE student_course.course_id = ?";
         Object[] args = {
-
+                id
         };
 
         List<Student> resultList = new LinkedList<>();
-        // TODO
+        try {
+            ResultSet rs = QueryExecutor.read(findStudentListSql, args);
+            while (rs.next()) {
+                Student student = new Student(rs.getInt("id"), rs.getString("first_name"),
+                        rs.getString("last_name"), rs.getInt("index_number"));
+                resultList.add(student);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         return resultList;
     }

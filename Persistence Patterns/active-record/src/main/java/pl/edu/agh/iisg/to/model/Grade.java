@@ -1,5 +1,11 @@
 package pl.edu.agh.iisg.to.model;
 
+import pl.edu.agh.iisg.to.executor.QueryExecutor;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Optional;
+
 public class Grade {
 
     public static final String TABLE_NAME = "grade";
@@ -14,9 +20,30 @@ public class Grade {
     }
 
     public static boolean gradeStudent(final Student student, final Course course, final float grade) {
-        String gradeStudentSql = "";
+        String checkExistSql = "select * from grade as g where g.student_id = ? and g.course_id = ?";
+        String gradeStudentSql = "INSERT INTO grade (grade, student_id, course_id) VALUES (?,?,?)";
 
-        return true;
+        Object[] checkArgs = {
+                student.id(),
+                course.id()
+        };
+
+        Object[] args = {
+                grade,
+                student.id(),
+                course.id()
+        };
+
+        try  {
+            ResultSet rs = QueryExecutor.read(checkExistSql, checkArgs);
+            if(rs.next())
+                return false;
+            QueryExecutor.createAndObtainId(gradeStudentSql, args);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public int id() {
