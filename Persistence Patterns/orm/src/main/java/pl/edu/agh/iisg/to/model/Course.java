@@ -23,10 +23,10 @@ public class Course {
             name = "student_course",
             joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "ID"),
             inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "ID"))
-    private Set<Student> studentSet = new HashSet<>();
+    private final Set<Student> studentSet = new HashSet<>();
 
     @OneToMany(mappedBy = "course")
-    private Set<Grade> gradeSet = new HashSet<>();
+    private final Set<Grade> gradeSet = new HashSet<>();
 
     Course() {
     }

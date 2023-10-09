@@ -1,11 +1,10 @@
 package pl.edu.agh.iisg.to.dao;
 
-import java.util.Optional;
-
-import javax.persistence.PersistenceException;
-
 import pl.edu.agh.iisg.to.model.Course;
 import pl.edu.agh.iisg.to.model.Student;
+
+import javax.persistence.PersistenceException;
+import java.util.Optional;
 
 public class CourseDao extends GenericDao<Course> {
 
@@ -40,7 +39,10 @@ public class CourseDao extends GenericDao<Course> {
     }
 
     public boolean enrollStudent(final Course course, final Student student) {
-        // TODO implement
-        return false;
+        if (course.studentSet().contains(student) || student.courseSet().contains(course)) return false;
+        course.studentSet().add(student);
+        student.courseSet().add(course);
+        update(course);
+        return true;
     }
 }

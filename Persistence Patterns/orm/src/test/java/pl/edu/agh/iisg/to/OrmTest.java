@@ -1,21 +1,18 @@
 package pl.edu.agh.iisg.to;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import pl.edu.agh.iisg.to.dao.CourseDao;
 import pl.edu.agh.iisg.to.dao.GradeDao;
 import pl.edu.agh.iisg.to.dao.StudentDao;
 import pl.edu.agh.iisg.to.model.Course;
-import pl.edu.agh.iisg.to.model.Grade;
 import pl.edu.agh.iisg.to.model.Student;
 import pl.edu.agh.iisg.to.session.SessionService;
+
+import java.util.Map;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -51,7 +48,6 @@ public class OrmTest {
         assertNotEquals(student1.get().id(), student2.get().id());
         assertTrue(redundantStudent.isEmpty());
     }
-
 
     @Test
     public void findStudentIndexTest() {
