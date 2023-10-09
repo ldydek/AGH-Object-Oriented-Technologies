@@ -37,6 +37,7 @@ import java.sql.Types;
  * An SQL dialect for SQLite 3.
  */
 public class SQLiteDialect extends Dialect {
+
     private final UniqueDelegate uniqueDelegate;
 
     public SQLiteDialect() {
@@ -187,21 +188,18 @@ public class SQLiteDialect extends Dialect {
 
     @Override
     public SQLExceptionConversionDelegate buildSQLExceptionConversionDelegate() {
-        return new SQLExceptionConversionDelegate() {
-            @Override
-            public JDBCException convert(SQLException sqlException, String message, String sql) {
-                final int errorCode = JdbcExceptionHelper.extractErrorCode(sqlException);
-                if (errorCode == SQLITE_TOOBIG || errorCode == SQLITE_MISMATCH) {
-                    return new DataException(message, sqlException, sql);
-                } else if (errorCode == SQLITE_BUSY || errorCode == SQLITE_LOCKED) {
-                    return new LockAcquisitionException(message, sqlException, sql);
-                } else if ((errorCode >= SQLITE_IOERR && errorCode <= SQLITE_PROTOCOL) || errorCode == SQLITE_NOTADB) {
-                    return new JDBCConnectionException(message, sqlException, sql);
-                }
-
-                // returning null allows other delegates to operate
-                return null;
+        return (sqlException, message, sql) -> {
+            final int errorCode = JdbcExceptionHelper.extractErrorCode(sqlException);
+            if (errorCode == SQLITE_TOOBIG || errorCode == SQLITE_MISMATCH) {
+                return new DataException(message, sqlException, sql);
+            } else if (errorCode == SQLITE_BUSY || errorCode == SQLITE_LOCKED) {
+                return new LockAcquisitionException(message, sqlException, sql);
+            } else if ((errorCode >= SQLITE_IOERR && errorCode <= SQLITE_PROTOCOL) || errorCode == SQLITE_NOTADB) {
+                return new JDBCConnectionException(message, sqlException, sql);
             }
+
+            // returning null allows other delegates to operate
+            return null;
         };
     }
 
@@ -314,6 +312,7 @@ public class SQLiteDialect extends Dialect {
     }
 
     private static class SQLiteUniqueDelegate extends DefaultUniqueDelegate {
+
         public SQLiteUniqueDelegate(Dialect dialect) {
             super(dialect);
         }
