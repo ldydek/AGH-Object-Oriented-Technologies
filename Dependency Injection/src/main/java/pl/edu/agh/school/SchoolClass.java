@@ -14,9 +14,11 @@ public class SchoolClass implements Serializable {
     private static final long serialVersionUID = -1458264557391305041L;
 
     private final String name;
+
     private final String profile;
 
     private final List<Student> students = new ArrayList<>();
+
     private final List<Subject> subjects = new ArrayList<>();
 
     public SchoolClass(String name, String profile) {

@@ -11,6 +11,7 @@ public class Lesson implements Serializable {
     private static final long serialVersionUID = -1645504644575582072L;
 
     private final Subject subject;
+
     private final Calendar date;
 
     private final ArrayList<Student> presentStudents = new ArrayList<>();

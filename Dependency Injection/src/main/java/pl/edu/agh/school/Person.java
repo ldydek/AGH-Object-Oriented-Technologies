@@ -10,7 +10,9 @@ public abstract class Person implements Serializable {
     private static final long serialVersionUID = 3564949349030026764L;
 
     protected String name;
+
     protected String surname;
+
     protected PersonType personType;
 
     public Person(String name, String surname) {

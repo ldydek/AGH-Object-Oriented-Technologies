@@ -17,8 +17,11 @@ public class Subject implements Serializable {
     private final String name;
 
     private final List<Term> terms = new ArrayList<>();
+
     private final List<Mark> marks = new ArrayList<>();
+
     private final List<Mark> semesterMarks = new ArrayList<>();
+
     private final List<Lesson> lessons = new ArrayList<>();
 
     private Teacher _teacher;

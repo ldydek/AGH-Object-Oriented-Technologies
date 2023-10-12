@@ -4,9 +4,12 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.inject.Inject;
 import pl.edu.agh.logger.Logger;
 import pl.edu.agh.school.SchoolClass;
 import pl.edu.agh.school.Teacher;
+
+import javax.inject.Named;
 
 public final class SerializablePersistenceManager implements IPersistenceManager {
 
@@ -16,9 +19,10 @@ public final class SerializablePersistenceManager implements IPersistenceManager
 
     private final String classStorageFileName;
 
-    public SerializablePersistenceManager() {
-        teachersStorageFileName = "teachers.dat";
-        classStorageFileName = "classes.dat";
+    @Inject
+    public SerializablePersistenceManager(@Named("teachers") String teachersStorageFileName, @Named("class") String classStorageFileName) {
+        this.teachersStorageFileName = teachersStorageFileName;
+        this.classStorageFileName = classStorageFileName;
     }
 
     @Override

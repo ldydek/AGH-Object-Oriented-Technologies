@@ -12,8 +12,11 @@ public class Term implements Serializable {
     private static final long serialVersionUID = -5531282222177760431L;
 
     private final DayOfWeek dayOfWeek;
+
     private final Date startTime;
+
     private final int durationInMinutes;
+
     private Subject subject;
 
     public Term(DayOfWeek dayOfWeek, Date hour, int durationInMinutes) {
