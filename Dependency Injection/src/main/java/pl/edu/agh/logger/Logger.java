@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Logger {
+
     protected static Logger logger;
 
     protected DateFormat dateFormat;

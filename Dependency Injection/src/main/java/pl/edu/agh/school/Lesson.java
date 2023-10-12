@@ -1,11 +1,13 @@
 package pl.edu.agh.school;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 public class Lesson implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -1645504644575582072L;
 
     private final Subject subject;

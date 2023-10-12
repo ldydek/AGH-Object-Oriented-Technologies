@@ -8,19 +8,20 @@ import pl.edu.agh.logger.Logger;
 import pl.edu.agh.school.SchoolClass;
 import pl.edu.agh.school.Teacher;
 
-public final class SerializablePersistenceManager {
+public final class SerializablePersistenceManager implements IPersistenceManager {
 
     private static final Logger log = Logger.getInstance();
 
-    private String teachersStorageFileName;
+    private final String teachersStorageFileName;
 
-    private String classStorageFileName;
+    private final String classStorageFileName;
 
     public SerializablePersistenceManager() {
         teachersStorageFileName = "teachers.dat";
         classStorageFileName = "classes.dat";
     }
 
+    @Override
     public void saveTeachers(List<Teacher> teachers) {
         if (teachers == null) {
             throw new IllegalArgumentException();
@@ -35,6 +36,7 @@ public final class SerializablePersistenceManager {
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public List<Teacher> loadTeachers() {
         ArrayList<Teacher> res = null;
         try (ObjectInputStream ios = new ObjectInputStream(new FileInputStream(teachersStorageFileName))) {
@@ -50,6 +52,7 @@ public final class SerializablePersistenceManager {
         return res;
     }
 
+    @Override
     public void saveClasses(List<SchoolClass> classes) {
         if (classes == null) {
             throw new IllegalArgumentException();
@@ -65,6 +68,7 @@ public final class SerializablePersistenceManager {
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public List<SchoolClass> loadClasses() {
         ArrayList<SchoolClass> res = null;
         try (ObjectInputStream ios = new ObjectInputStream(new FileInputStream(classStorageFileName))) {

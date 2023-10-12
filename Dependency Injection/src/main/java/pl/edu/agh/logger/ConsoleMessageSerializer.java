@@ -1,18 +1,13 @@
 package pl.edu.agh.logger;
 
+public class ConsoleMessageSerializer implements IMessageSerializer {
 
-public class ConsoleMessageSerializer  implements IMessageSerializer
-{
-	
-	public ConsoleMessageSerializer()
-	{
-	}
+    public ConsoleMessageSerializer() {
+    }
 
-	@Override
-	public void serializeMessage(String message) {
-		System.out.println(message);
-	}
-	
-	
-	
+    @Override
+    public void serializeMessage(String message) {
+        System.out.println(message);
+    }
+
 }
