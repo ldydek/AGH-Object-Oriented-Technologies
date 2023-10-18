@@ -13,15 +13,19 @@ import javax.inject.Named;
 
 public final class SerializablePersistenceManager implements IPersistenceManager {
 
-    private static final Logger log = Logger.getInstance();
+    private final Logger logger = Logger.getInstance();
 
-    private final String teachersStorageFileName;
+    private String teachersStorageFileName;
 
-    private final String classStorageFileName;
+    private String classStorageFileName;
 
     @Inject
-    public SerializablePersistenceManager(@Named("teachers") String teachersStorageFileName, @Named("class") String classStorageFileName) {
+    public void setTeachersStorageFileName(@Named("teachers") String teachersStorageFileName) {
         this.teachersStorageFileName = teachersStorageFileName;
+    }
+
+    @Inject
+    public void setClassStorageFileName(@Named("class") String classStorageFileName) {
         this.classStorageFileName = classStorageFileName;
     }
 
@@ -32,10 +36,11 @@ public final class SerializablePersistenceManager implements IPersistenceManager
         }
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(teachersStorageFileName))) {
             oos.writeObject(teachers);
+            logger.log("Saved teachers");
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException(e);
         } catch (IOException e) {
-            log.log("There was an error while saving the teachers data", e);
+            logger.log("There was an error while saving the teachers data", e);
         }
     }
 
@@ -44,12 +49,12 @@ public final class SerializablePersistenceManager implements IPersistenceManager
     public List<Teacher> loadTeachers() {
         ArrayList<Teacher> res = null;
         try (ObjectInputStream ios = new ObjectInputStream(new FileInputStream(teachersStorageFileName))) {
-
             res = (ArrayList<Teacher>) ios.readObject();
+            logger.log("Loaded teachers");
         } catch (FileNotFoundException e) {
             res = new ArrayList<>();
         } catch (IOException e) {
-            log.log("There was an error while loading the teachers data", e);
+            logger.log("There was an error while loading the teachers data", e);
         } catch (ClassNotFoundException e) {
             throw new IllegalArgumentException(e);
         }
@@ -62,12 +67,12 @@ public final class SerializablePersistenceManager implements IPersistenceManager
             throw new IllegalArgumentException();
         }
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(classStorageFileName))) {
-
             oos.writeObject(classes);
+            logger.log("Saved classes");
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException(e);
         } catch (IOException e) {
-            log.log("There was an error while saving the classes data", e);
+            logger.log("There was an error while saving the classes data", e);
         }
     }
 
@@ -77,10 +82,11 @@ public final class SerializablePersistenceManager implements IPersistenceManager
         ArrayList<SchoolClass> res = null;
         try (ObjectInputStream ios = new ObjectInputStream(new FileInputStream(classStorageFileName))) {
             res = (ArrayList<SchoolClass>) ios.readObject();
+            logger.log("Loaded classes");
         } catch (FileNotFoundException e) {
             res = new ArrayList<>();
         } catch (IOException e) {
-            log.log("There was an error while loading the classes data", e);
+            logger.log("There was an error while loading the classes data", e);
         } catch (ClassNotFoundException e) {
             throw new IllegalArgumentException(e);
         }

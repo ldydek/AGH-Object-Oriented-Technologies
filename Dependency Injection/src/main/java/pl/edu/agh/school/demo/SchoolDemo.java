@@ -34,8 +34,7 @@ public class SchoolDemo {
     public static void main(String[] args) throws Exception {
 
         Logger.getInstance().registerSerializer(new ConsoleMessageSerializer());
-        Logger.getInstance().registerSerializer(
-                new FileMessageSerializer("logfile.log"));
+        Logger.getInstance().registerSerializer(new FileMessageSerializer("persistence.log"));
 
         SchoolDemo schoolDemo = new SchoolDemo();
         schoolDemo.initTeachers();
