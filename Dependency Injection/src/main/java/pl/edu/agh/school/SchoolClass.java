@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import pl.edu.agh.logger.Logger;
-
 public class SchoolClass implements Serializable {
 
     @Serial
@@ -42,8 +40,6 @@ public class SchoolClass implements Serializable {
     public void addSubject(Subject subject) {
         if (!subjects.contains(subject)) {
             subjects.add(subject);
-            Logger.getInstance().log(
-                    "Added " + subject.toString() + " to " + this);
         }
     }
 
@@ -55,9 +51,6 @@ public class SchoolClass implements Serializable {
         if (!students.contains(student)) {
             students.add(student);
             student.setSchoolClass(this);
-            Logger.getInstance().log(
-                    "Added " + student + " to class "
-                            + this);
         }
     }
 

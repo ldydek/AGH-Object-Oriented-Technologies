@@ -7,8 +7,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import pl.edu.agh.logger.Logger;
-
 public class Subject implements Serializable {
 
     @Serial
@@ -38,8 +36,6 @@ public class Subject implements Serializable {
         if (!terms.contains(newTerm)) {
             terms.add(newTerm);
             newTerm.setSubject(this);
-            Logger.getInstance().log(
-                    "Added " + newTerm + " to ");
         }
     }
 

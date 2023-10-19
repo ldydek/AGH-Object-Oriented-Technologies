@@ -13,15 +13,16 @@ import javax.inject.Named;
 
 public final class SerializablePersistenceManager implements IPersistenceManager {
 
-    private final Logger logger = Logger.getInstance();
+    private Logger logger ;
 
     private String teachersStorageFileName;
 
     private String classStorageFileName;
 
     @Inject
-    public void setTeachersStorageFileName(@Named("teachers") String teachersStorageFileName) {
+    public void setTeachersStorageFileName(@Named("teachers") String teachersStorageFileName, Logger logger) {
         this.teachersStorageFileName = teachersStorageFileName;
+        this.logger = logger;
     }
 
     @Inject

@@ -1,7 +1,6 @@
 package pl.edu.agh.logger;
 
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -13,8 +12,12 @@ public class FileMessageSerializer implements IMessageSerializer {
     private final Writer output;
 
     @Inject
-    public FileMessageSerializer(@Named("logFilename") String filename) throws IOException {
-        output = new BufferedWriter(new FileWriter(filename, true));
+    public FileMessageSerializer(String filename) {
+        try {
+            output = new BufferedWriter(new FileWriter(filename, true));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
