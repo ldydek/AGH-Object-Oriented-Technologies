@@ -1,6 +1,7 @@
 package util;
 
 import driver.DuckDuckGoDriver;
+import io.reactivex.rxjava3.core.Observable;
 import model.Photo;
 import org.apache.tika.Tika;
 
@@ -11,7 +12,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,12 +20,13 @@ public class PhotoDownloader {
 
     private static final Logger log = Logger.getLogger(PhotoDownloader.class.getName());
 
-    public List<Photo> getPhotoExamples() throws IOException {
-        return Arrays.asList(getPhoto("https://i.ytimg.com/vi/7uxQjydfBOU/hqdefault.jpg"),
-                getPhoto("http://digitalspyuk.cdnds.net/16/51/1280x640/landscape-1482419524-12382542-low-res-sherlock.jpg"),
-                getPhoto("http://image.pbs.org/video-assets/pbs/masterpiece/132733/images/mezzanine_172.jpg"),
-                getPhoto("https://classicmystery.files.wordpress.com/2016/04/miss-marple-2.jpg"),
-                getPhoto("https://i.pinimg.com/736x/7c/14/c9/7c14c97839940a09f987fbadbd47eb89--detective-monk-adrian-monk.jpg"));
+    public Observable<Photo> getPhotoExamples() throws IOException {
+        return Observable.just("https://i.ytimg.com/vi/7uxQjydfBOU/hqdefault.jpg",
+                        "http://digitalspyuk.cdnds.net/16/51/1280x640/landscape-1482419524-12382542-low-res-sherlock.jpg",
+                        "http://image.pbs.org/video-assets/pbs/masterpiece/132733/images/mezzanine_172.jpg",
+                        "https://classicmystery.files.wordpress.com/2016/04/miss-marple-2.jpg",
+                        "https://i.pinimg.com/736x/7c/14/c9/7c14c97839940a09f987fbadbd47eb89--detective-monk-adrian-monk.jpg")
+                .map(this::getPhoto);
     }
 
     public List<Photo> searchForPhotos(String searchQuery) throws IOException, InterruptedException {
