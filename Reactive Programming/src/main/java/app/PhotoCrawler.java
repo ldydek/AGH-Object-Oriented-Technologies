@@ -25,7 +25,7 @@ public class PhotoCrawler {
         this.photoProcessor = new PhotoProcessor();
     }
 
-    public void resetLibrary() throws IOException {
+    public void resetLibrary() {
         photoSerializer.deleteLibraryContents();
     }
 
@@ -42,6 +42,6 @@ public class PhotoCrawler {
     }
 
     public void downloadPhotosForMultipleQueries(List<String> queries) {
-        // TODO Implement me :(
+        photoDownloader.searchForPhotos(queries).subscribe(photoSerializer::savePhoto);
     }
 }
