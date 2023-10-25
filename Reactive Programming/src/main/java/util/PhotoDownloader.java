@@ -11,9 +11,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class PhotoDownloader {
@@ -29,18 +27,18 @@ public class PhotoDownloader {
                 .map(this::getPhoto);
     }
 
-    public List<Photo> searchForPhotos(String searchQuery) throws IOException, InterruptedException {
-        List<Photo> photos = new ArrayList<>();
-        List<String> photoUrls = DuckDuckGoDriver.searchForImages(searchQuery);
-
-        for (String photoUrl : photoUrls) {
+    public Observable<Photo> searchForPhotos(String searchQuery) {
+        return Observable.create(observer -> {
             try {
-                photos.add(getPhoto(photoUrl));
+                List<String> photoUrls = DuckDuckGoDriver.searchForImages(searchQuery);
+                for (String photoUrl : photoUrls) {
+                    observer.onNext(getPhoto(photoUrl));
+                }
+                observer.onComplete();
             } catch (IOException e) {
-                log.log(Level.WARNING, "Could not download a photo", e);
+                observer.onError(e);
             }
-        }
-        return photos;
+        });
     }
 
     private Photo getPhoto(String photoUrl) throws IOException {
