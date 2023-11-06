@@ -39,13 +39,18 @@ public class GalleryController {
             }
         });
 
-        imagesListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> { });
+        imagesListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (oldValue != null) {
+                imageNameField.textProperty().unbindBidirectional(oldValue);
+            }
+           bindSelectedPhoto(newValue);
+        });
     }
 
     public void setModel(Gallery gallery) {
         this.galleryModel = gallery;
-        bindSelectedPhoto(gallery.getPhotos().get(0));
-        this.imagesListView.setItems(gallery.getPhotos());
+        imagesListView.getSelectionModel().select(0);
+        imagesListView.setItems(gallery.getPhotos());
     }
 
     private void bindSelectedPhoto(Photo selectedPhoto) {
