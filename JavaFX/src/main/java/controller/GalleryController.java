@@ -38,6 +38,8 @@ public class GalleryController {
                 }
             }
         });
+
+        imagesListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> { });
     }
 
     public void setModel(Gallery gallery) {
