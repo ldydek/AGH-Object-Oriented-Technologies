@@ -1,24 +1,34 @@
 package pl.edu.agh.to.school.student;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.time.LocalDate;
 
+@Entity
 public class Student {
 
+    @Id
+    @GeneratedValue
     private int id;
 
-    private final String firstName;
+    private String firstName;
 
-    private final String lastName;
+    private String lastName;
 
-    private final LocalDate birthDate;
+    private LocalDate birthDate;
 
-    private final String indexNumber;
+    private String indexNumber;
 
     public Student(String firstName, String lastName, LocalDate birthDate, String indexNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
         this.indexNumber = indexNumber;
+    }
+
+    public Student() {
+
     }
 
     public String getFirstName() {
